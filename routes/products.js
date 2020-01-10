@@ -8,21 +8,20 @@ router.post('/addProducts', (req, res, next) => {
         productImage: req.body.productImage,
         productPrice: req.body.productPrice,
         productUseOrNot: req.body.productUseOrNot
-    }).then((products) => {
+
+    }).then((product) => {
         res.json({ status: "Product Added Successfully"});
     }).catch(next);
 });
 
-router.get('/products',(req,res,next)=>{
-    Product.find({},(err,products)=>
+router.get('/allProducts',(req,res,next)=>{
+    Product.find({},(err,product)=>
     {
         if(err){
             res.json(next)
         }
-        res.json(products)
+        res.json(product)
     });
 })
-
-
 
 module.exports = router;

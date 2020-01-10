@@ -17,15 +17,12 @@ router.post('/signup', (req, res, next) => {
             profileImage: req.body.profileImage,
             email: req.body.email,
             fullname: req.body.fullname,
-            password: req.body.password,
+            password: hash,
             phone: req.body.phone,
             mobileNumber: req.body.mobileNumber,
             streetName: req.body.streetName,
             areaLocation: req.body.areaLocation,
-            cityName: req.body.cityName,
-            newsletterSubscribe: req.body.newsletterSubscribe,
-            hideNumber: req.body.hideNumber,
-            agreement: req.body.agreement
+            cityName: req.body.cityName
         }).then((user) => {
             let token = jwt.sign({ _id: user._id }, process.env.SECRET);
             res.json({ status: "Signup success!", token: token });
@@ -41,6 +38,7 @@ router.post('/login', (req, res, next) => {
                 err.status = 401;
                 return next(err);
             } else {
+                
                 bcrypt.compare(req.body.password, user.password)
                     .then((isMatch) => {
                         if (!isMatch) {
@@ -55,15 +53,13 @@ router.post('/login', (req, res, next) => {
         }).catch(next);
 })
 
-router.get('/me', auth.verifyUser, (req, res, next) => {
-    res.json({ _id: req.user._id, profileImage: req.user.profileImage, email: req.user.email, fullname: req.user.fullname, phone: req.user.phone,mobileNumber: req.user.mobileNumber, streetName: req.user.streetName, areaLocation: req.user.areaLocation,cityName: req.user.cityName });
-});
-
-router.put('/me', auth.verifyUser, (req, res, next) => {
-    User.findByIdAndUpdate(req.user._id, { $set: req.body }, { new: true })
-        .then((user) => {
-            res.json({ _id: user._id, profileImage: user.profileImage, email: req.user.email, fullname: req.user.fullname, phone: user.phone});
-        }).catch(next);
+router.get('/me',auth.verifyUser,(req,res,next)=>{
+    res.json({
+        _id:req.user._id,
+        fullname:req.user.fullname,
+        email:req.user.email,
+        image:req.user.image
+    });
 });
 
 module.exports = router;

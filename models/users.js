@@ -37,17 +37,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    newsletterSubscribe: {
-        type: String,
-        required: true
-    },
-    hideNumber: {
-        type: String,
-        required: true
-    },
-    agreement: {
-        type: String,
-        required: true
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 

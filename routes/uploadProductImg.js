@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require("path");
 
 const storage = multer.diskStorage({
-    destination: "./public/uploads/users",
+    destination: "./public/uploads/products",
     filename: (req, file, callback) => {
         let ext = path.extname(file.originalname);
         callback(null, `${file.fieldname}-${Date.now()}${ext}`);
@@ -22,11 +22,11 @@ const upload = multer({
     fileFilter: imageFileFilter
 })
 
-const uploadRouter = express.Router();
+const uploadProductImgRouter = express.Router();
 
-uploadRouter.route('/')
-    .post(upload.single('profileImage'), (req, res) => {    
+uploadProductImgRouter.route('/')
+    .post(upload.single('productImage'), (req, res) => {
         res.json(req.file);
     });
 
-module.exports = uploadRouter;
+module.exports = uploadProductImgRouter;
